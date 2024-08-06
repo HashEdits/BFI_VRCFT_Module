@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwudgeVRCFTModule", "TwudgeVRCFTModule\TwudgeVRCFTModule.csproj", "{22B19E83-DD19-40B5-B005-9E2D37694EDD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22B19E83-DD19-40B5-B005-9E2D37694EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22B19E83-DD19-40B5-B005-9E2D37694EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22B19E83-DD19-40B5-B005-9E2D37694EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22B19E83-DD19-40B5-B005-9E2D37694EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F10805C5-95E6-48DD-9F3E-7D3FAC997A7F}
+	EndGlobalSection
+EndGlobal
