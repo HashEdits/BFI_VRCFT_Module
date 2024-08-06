@@ -33,7 +33,7 @@
 
             // Example of an embedded image stream being referenced as a stream
             System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-            Stream stream = a.GetManifestResourceStream("ExampleExtTrackingInterface.Assets.Nvidia_logo.png");
+            Stream stream = a.GetManifestResourceStream("TwudgeVRCFTModule.Assets.Thundercats-logo.png");
             // Setting the stream to be referenced by VRCFaceTracking.
             ModuleInformation.StaticImages = stream != null ? new List<Stream> { stream } : ModuleInformation.StaticImages;
             Logger.LogInformation("is stream null: " + (stream == null).ToString());

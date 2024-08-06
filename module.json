@@ -8,9 +8,9 @@
   "Rating": 5.0,
   "AuthorName": "Hash",
   "ModuleName": "Twudge BFI Module",
-  "ModuleDescription": "deez",
-  "UsageInstructions": "nuts",
+  "ModuleDescription": "Let's you use BFI actions to control VRCFT Parameters",
+  "UsageInstructions": "Action1:EyeClosed, Action2:Smile, Action3:Frown",
   "DownloadUrl": "https://github.com/HashEdits/TwudgeVRCFTModule",
   "ModulePageUrl": "https://github.com/HashEdits/TwudgeVRCFTModule",
-  "DllFileName": "TwudgeBFIModule.dll"
+  "DllFileName": "TwudgeVRCFTModule.dll"
 }

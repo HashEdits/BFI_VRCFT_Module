@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Thundercats-logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Thundercats-logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="VRCFaceTracking.Core">
       <HintPath>VRCFaceTracking.Core.dll</HintPath>
     </Reference>
