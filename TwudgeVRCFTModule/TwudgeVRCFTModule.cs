@@ -8,15 +8,16 @@
 
     public class TwudgeVRCFTModule : ExtTrackingModule
     {
-        OscReceiver reciever = new OscReceiver(8999);
-        /*
-        UnifiedExpressionShape jawopen = new UnifiedExpressionShape();
-        UnifiedExpressionShape jawright = new UnifiedExpressionShape();
-        UnifiedExpressionShape MouthCornerSlantRight = new UnifiedExpressionShape();
-        UnifiedExpressionShape MouthCornerPullRight = new UnifiedExpressionShape();*/
+        public bool debug = false;
+        OscReceiver reciever = new OscReceiver(9000);
 
         UnifiedExpressionShape frown = new UnifiedExpressionShape();
-        UnifiedExpressionShape mouthOpen = new UnifiedExpressionShape();
+        UnifiedExpressionShape mouthUpperUp = new UnifiedExpressionShape();
+        UnifiedExpressionShape mouthLowerDown = new UnifiedExpressionShape();
+        UnifiedExpressionShape MouthStretch = new UnifiedExpressionShape();
+
+
+        UnifiedExpressionShape browDown = new UnifiedExpressionShape();
         // What your interface is able to send as tracking data.
         public override (bool SupportsEye, bool SupportsExpression) Supported => (true, true);
 
@@ -49,35 +50,33 @@
 
             if (Status == ModuleState.Active) // Module Status validation
             {
-
-                Logger.LogInformation(reciever.data);
-                /*                jawopen.Weight = 1f;
-                                jawright.Weight = 1f;
-                                MouthCornerSlantRight.Weight = 1f;
-                                MouthCornerPullRight.Weight = 1f;*/
+                // ... Execute update cycle.
+                if (debug) Logger.LogInformation(reciever.data);
 
                 frown.Weight = reciever.frown + (-reciever.smile);
-                mouthOpen.Weight = reciever.smile;
-                // ... Execute update cycle.
-                UnifiedTracking.Data.Eye.Left.Openness = reciever.eyeClosed;
-                UnifiedTracking.Data.Eye.Right.Openness = reciever.eyeClosed;
+                mouthUpperUp.Weight = reciever.smile;
+                mouthLowerDown.Weight = Math.Clamp(reciever.smile + reciever.cringe,0,1);
+                browDown.Weight = reciever.anger;
+                MouthStretch.Weight = reciever.cringe;
+
+                
+                UnifiedTracking.Data.Eye.Left.Openness = 1-reciever.eyeClosed;
+                UnifiedTracking.Data.Eye.Right.Openness = 1-reciever.eyeClosed;
+
                 UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthFrownRight] = frown;
                 UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthFrownLeft] = frown;
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthUpperUpLeft] = mouthOpen;
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthUpperUpRight] = mouthOpen;
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthLowerDownLeft] = mouthOpen;
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthLowerDownRight] = mouthOpen;
 
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthUpperUpLeft] = mouthUpperUp;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthUpperUpRight] = mouthUpperUp;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthLowerDownLeft] = mouthLowerDown;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthLowerDownRight] = mouthLowerDown;
 
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowLowererLeft] = browDown;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowLowererRight] = browDown;
 
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthStretchLeft] = MouthStretch;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthStretchRight] = MouthStretch;
 
-                /*
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthFrownLeft] = jawopen;
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.JawOpen] = jawopen;
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.JawRight] = jawright;
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthCornerSlantRight] = MouthCornerSlantRight;//Mouthright
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthCornerPullRight] = MouthCornerPullRight;//Mouthright
-                */
             }
 
             // Add a delay or halt for the next update cycle for performance. eg: 

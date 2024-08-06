@@ -20,7 +20,8 @@ public class OscReceiver
         public float eyeClosed = 0;
         public float smile = 0;
         public float frown = 0;
-        public bool FullDebug = false;
+        public float anger = 0;
+        public float cringe = 0;
 
 
         public OscReceiver(int port)
@@ -51,20 +52,29 @@ public class OscReceiver
                 {
                     eyeClosed = (float)oscMessage.Value;
                 }
-                if (oscMessage.Address.ToString().Contains("BFI/MLAction/Action2"))
+                else if (oscMessage.Address.ToString().Contains("BFI/MLAction/Action2"))
                 {
                     smile = (float)oscMessage.Value;
                 }
-                if (oscMessage.Address.ToString().Contains("BFI/MLAction/Action3"))
+                else if (oscMessage.Address.ToString().Contains("BFI/MLAction/Action3"))
                 {
                     frown = (float)oscMessage.Value;
 
                 }
+                else if (oscMessage.Address.ToString().Contains("BFI/MLAction/Action4"))
+                {
+                    anger = (float)oscMessage.Value;
+
+                }
+                else if (oscMessage.Address.ToString().Contains("BFI/MLAction/Action5"))
+                {
+                    cringe = (float)oscMessage.Value;
+
+                }
 
 
 
-                if (FullDebug) data = $"Received OSC message: {oscMessage.Address} with value: {oscMessage.Value}";
-                else data = $"Correct Data Recieved\nEyeClosed = {eyeClosed.ToString()} \nSmile = {smile.ToString()}\nFrown = {frown.ToString()}\n\n";
+                data = $"Correct Data Recieved\nEyeClosed = {eyeClosed.ToString()} \nSmile = {smile.ToString()}\nFrown = {frown.ToString()}\nAnger = {anger.ToString()}\ncringe = {cringe.ToString()}\n\n";
 
             }
         else
