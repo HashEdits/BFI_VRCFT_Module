@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\Thundercats-logo.png" />
+    <None Remove="Assets\BFI_logo.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Thundercats-logo.png" />
+    <EmbeddedResource Include="Assets\BFI_logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

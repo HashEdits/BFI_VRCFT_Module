@@ -6,7 +6,7 @@
     using VRCFaceTracking.Core.Params.Data;
     using VRCFaceTracking.Core.Params.Expressions;
 
-    public class TwudgeVRCFTModule : ExtTrackingModule
+    public class BFI_VRCFT_Module : ExtTrackingModule
     {
         public bool debug = false;
         OscReceiver reciever = new OscReceiver(9000);
@@ -30,11 +30,11 @@
             reciever.StartListening();
             var state = (eyeAvailable, expressionAvailable);
 
-            ModuleInformation.Name = "Twudge BFI Module";
+            ModuleInformation.Name = "BFI Module";
 
             // Example of an embedded image stream being referenced as a stream
             System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-            Stream stream = a.GetManifestResourceStream("TwudgeVRCFTModule.Assets.Thundercats-logo.png");
+            Stream stream = a.GetManifestResourceStream("BFI_VRCFT_Module.Assets.BFI_logo.png");
             // Setting the stream to be referenced by VRCFaceTracking.
             ModuleInformation.StaticImages = stream != null ? new List<Stream> { stream } : ModuleInformation.StaticImages;
             Logger.LogInformation("is stream null: " + (stream == null).ToString());

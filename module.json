@@ -2,15 +2,15 @@
   "InstallationState": 0,
   "ModuleId": "91a90618-b020-4064-8832-809b2ca2b3be",
   "LastUpdated": "2024-01-30T17:18:18Z",
-  "Version": "0.1",
+  "Version": "0.2",
   "Downloads": 69420,
   "Ratings": 69420,
   "Rating": 5.0,
   "AuthorName": "Hash",
-  "ModuleName": "Twudge BFI Module",
-  "ModuleDescription": "Let's you use BFI actions to control VRCFT Parameters",
-  "UsageInstructions": "Action1:EyeClosed, Action2:Smile, Action3:Frown",
+  "ModuleName": "BFIVRC Module",
+  "ModuleDescription": "Let's you use specific BFI actions to control VRCFT Parameters",
+  "UsageInstructions": "You need to have the following actions mapped:\n Action1:EyeClosed, Action2:Smile, Action3:Frown, Action4:Angry, Action5:Confused",
   "DownloadUrl": "https://github.com/HashEdits/TwudgeVRCFTModule",
   "ModulePageUrl": "https://github.com/HashEdits/TwudgeVRCFTModule",
-  "DllFileName": "TwudgeVRCFTModule.dll"
+  "DllFileName": "BFI_VRCFT_Module.dll"
 }
