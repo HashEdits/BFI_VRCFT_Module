@@ -7,10 +7,15 @@ A module that let's you control VRCFT avatars using BFI actions controlled by yo
 ### 1 - Make sure you have classified the following actions :
 
 Action0 - neutral state
+
 Action1 - closed eyes
+
 Action2 - smile
+
 Action3 - frown
+
 Action4 - scowl/angry
+
 Action5 - confused/shocked
 
 >List of expressions not set in stone yet
