@@ -1,33 +1,64 @@
-# BFI VRCFT Module
+# BFI VRCFT Module 🧠
 
-A module that let's you control VRCFT avatars using BFI actions controlled by your brain :o
+A module that let's you control VRCFT avatars using BFI actions controlled by your brain 🧠
 
-## How to use
+## How to use 🤔
 
-### 1 - Make sure you have classified the following actions :
+### 1 - Make sure you have configured your supported expressions based on your trained actions :
 
-Action0 - neutral state
+`expressions.json` must be in the same folder as the module and is used to define which expressions you have trained and which action number it's assigned to.
 
-Action1 - closed eyes
+Here's an exemple of a `expressions.json` supporting all of the supported expressions thus far:
 
-Action2 - smile
+```
+{
+    "supportedexpressions": {
+        "eyeclosed": {
+            "id": 1,
+            "weight": 1.0
+        },
+        "smile": {
+            "id": 2,
+            "weight": 1.0
+        },
+        "frown": {
+            "id": 3,
+            "weight": 1.0
+        },
+        "anger": {
+            "id": 4,
+            "weight": 1.0
+        },
+        "cringe": {
+            "id": 5,
+            "weight": 1.0
+        },
+        "cheekpuff": {
+            "id": 6,
+            "weight": 1.0
+        },
+        "apeshape": {
+            "id": 7,
+            "weight": 1.0
+        }
+    }
+}
+```
 
-Action3 - frown
+>List of supported expressions not set in stone yet
 
-Action4 - scowl/angry
+[Here's BFI's documentation](https://github.com/ChilloutCharles/BrainFlowsIntoVRChat/wiki/Action-Classification-Instructions) on how to train your own actions
 
-Action5 - confused/shocked
+### 2 - Launch BFI to output to port 8999 💨
 
->List of expressions not set in stone yet
+here's the command to launch BFI with the right launch option:
 
-[here's BFI's documentation](https://github.com/ChilloutCharles/BrainFlowsIntoVRChat/wiki/Action-Classification-Instructions) on how to train your own actions
-
-### 2 - Launch BFI to output to port 8999 `python .\main.py ----osc-port 8999`.
+`python .\main.py ----osc-port 8999`
 
 ### 3 - Drag and drop the latest release of the module in your VRCFT CustomLibs folder
 
-Make sure that the name of the folder containing `BFI_VRCFT_Module.dll` & `module.json` is named `91a90618-b020-4064-8832-809b2ca2b3be`
+Make sure that the name of the folder containing `BFI_VRCFT_Module.dll` & `module.json` & `expressions.json` is named `91a90618-b020-4064-8832-809b2ca2b3be`
 
-### 4 - Launch VRCFT
+### 4 - Launch VRCFT ✔️
 
 Enjoy

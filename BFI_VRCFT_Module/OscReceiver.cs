@@ -22,6 +22,8 @@ public class OscReceiver
 
     public string OSCDebugData;//debug string to display in the console
 
+
+    public SupportedExpressions expressions;
     public float eyeClosed = 0;
     public float smile = 0;
     public float frown = 0;
@@ -58,7 +60,17 @@ public class OscReceiver
         
         if (oscMessage != null)
         {
-                if (oscMessage.Address.ToString().Contains(_oscAddress + "1"))
+
+                foreach (var expression in expressions.Expressions)
+                {
+                    if(oscMessage.Address.ToString().Contains(_oscAddress + expression.Value.Id))
+                    {
+                        expression.Value.Weight = (float)oscMessage.Value;
+                        resetStopwatch();
+                    }
+                    //Logger.LogInformation($"Expression: {expression.Key}, Id: {expression.Value.Id}, Weight: {expression.Value.Weight}");
+                }
+                /*if (oscMessage.Address.ToString().Contains(_oscAddress + "1"))
                 {
                     eyeClosed = (float)oscMessage.Value;
                     resetStopwatch();
@@ -82,10 +94,11 @@ public class OscReceiver
                 {
                     cringe = (float)oscMessage.Value;
                     resetStopwatch();
-                }
+                }*/
 
+                OSCDebugData = $"message recieved: {oscMessage.Value}";
 
-                OSCDebugData = $"RawData{oscMessage.Value}\nEyeClosed = {eyeClosed.ToString()} \nSmile = {smile.ToString()}\nFrown = {frown.ToString()}\nAnger = {anger.ToString()}\ncringe = {cringe.ToString()}\n\n";
+                //OSCDebugData = $"RawData{oscMessage.Value}\nEyeClosed = {eyeClosed.ToString()} \nSmile = {smile.ToString()}\nFrown = {frown.ToString()}\nAnger = {anger.ToString()}\ncringe = {cringe.ToString()}\n\n";
 
             }
         else
