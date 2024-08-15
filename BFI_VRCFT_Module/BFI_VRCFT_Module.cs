@@ -1,6 +1,8 @@
 ﻿namespace BFI_VRCFT_Module
 {
     using Microsoft.Extensions.Logging;
+    using System.Linq.Expressions;
+    using System.Net;
     using System.Text.Json;
     using System.Text.Json.Serialization;
     using VRCFaceTracking;
@@ -22,7 +24,7 @@
 
         //osc info
         public static bool debug = false;
-        OscReceiver reciever = new OscReceiver(8999);
+        OscReceiver reciever;
 
         //expressions
         UnifiedExpressionShape frown = new UnifiedExpressionShape();
@@ -32,6 +34,8 @@
         UnifiedExpressionShape browDown = new UnifiedExpressionShape();
         UnifiedExpressionShape cheekPuff = new UnifiedExpressionShape();
         UnifiedExpressionShape apeShape = new UnifiedExpressionShape();
+        UnifiedExpressionShape browInnerUp = new UnifiedExpressionShape();
+        UnifiedExpressionShape browOuterUp = new UnifiedExpressionShape();
 
 
         // What your interface is able to send as tracking data.
@@ -43,7 +47,23 @@
         public override (bool eyeSuccess, bool expressionSuccess) Initialize(bool eyeAvailable, bool expressionAvailable)
         {
 
+            JsonParser parser = new JsonParser();
+            Config config = new Config();
+            try
+            {
+                config = parser.ParseConfig();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogInformation($"Error parsing JSON file: {ex.Message}");
+            }
+
+            Logger.LogInformation(parser.debugString);
+
+            reciever = new OscReceiver(IPAddress.Parse(config.ip),config.port,config.timoutTime) ;
+
             reciever.StartListening();//starts OSC listener
+            Logger.LogInformation(reciever.debugString);
             var state = (eyeAvailable, expressionAvailable);
 
             ModuleInformation.Name = "BFI Module";
@@ -60,10 +80,9 @@
             //parsing json file for expressions
             try
             {
-
-                JsonParser parser = new JsonParser();
-                SupportedExpressions expressions = parser.ParseJson();  //parsing json file
+                SupportedExpressions expressions = parser.ParseExpressions();  //parsing json file
                 reciever.expressions = expressions;                     //assigning expressions to the reciever
+                
                 if (expressions != null && expressions.Expressions != null)
                 {
                     if (expressions.Expressions != null)
@@ -78,6 +97,7 @@
                 {
                     Logger.LogInformation($"No expressions found in the JSON file");
                 }
+                
             }
             catch (Exception ex)
             {
@@ -101,7 +121,7 @@
                 // ... Execute update cycle.
 
 
-                if (debug) Logger.LogInformation(reciever.OSCDebugData);
+                if (debug) Logger.LogInformation(reciever.debugString);
 
                 //UpdateValues();
                 UpdateValuesExpressions();
@@ -154,10 +174,10 @@
                 UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.JawOpen] = apeShape;
                 UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthClosed] = apeShape;
 
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowInnerUpLeft] = apeShape;
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowInnerUpRight] = apeShape;
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowOuterUpLeft] = apeShape;
-                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowOuterUpRight] = apeShape;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowInnerUpLeft] = browInnerUp;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowInnerUpRight] = browInnerUp;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowOuterUpLeft] = browOuterUp;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowOuterUpRight] = browOuterUp;
 
 
 
@@ -166,19 +186,6 @@
             // Add a delay or halt for the next update cycle for performance. eg: 
             Thread.Sleep(10);
         }
-
-        /*private void UpdateValues()//legacy function, easier to read
-        {
-            frown.Weight = reciever.frown + (-reciever.smile);
-
-            mouthUpperUp.Weight = reciever.smile;
-
-            mouthLowerDown.Weight = Math.Clamp(reciever.smile + reciever.cringe, 0, 1);
-
-            browDown.Weight = reciever.anger;
-
-            MouthStretch.Weight = reciever.cringe;
-        }*/
 
         private void UpdateValuesExpressions()//sets values of expressions based on the values recieved from OSC if present
         {
@@ -212,7 +219,14 @@
                     {
                         mouthLowerDown.Weight = Clampf01(reciever.expressions.Expressions[tagCringe].Weight);
                     }
+
+                    if (!reciever.expressions.Expressions.ContainsKey(tagApeShape))
+                    {
+                        browInnerUp.Weight = Clampf01(reciever.expressions.Expressions[tagCringe].Weight);
+                    }
+
                     MouthStretch.Weight = Clampf01(reciever.expressions.Expressions[tagCringe].Weight);
+
                 }
                 if (reciever.expressions.Expressions.ContainsKey(tagAnger))
                 {
@@ -225,6 +239,17 @@
                 if (reciever.expressions.Expressions.ContainsKey(tagApeShape))
                 {
                     apeShape.Weight = Clampf01(reciever.expressions.Expressions[tagApeShape].Weight);
+
+                    if (reciever.expressions.Expressions.ContainsKey(tagCringe))
+                    {
+                        browInnerUp.Weight = Clampf01(reciever.expressions.Expressions[tagCringe].Weight + reciever.expressions.Expressions[tagApeShape].Weight);
+
+                    }
+                    else
+                    {
+                        browInnerUp.Weight = Clampf01(reciever.expressions.Expressions[tagApeShape].Weight);
+                    }
+                    browOuterUp.Weight = Clampf01(reciever.expressions.Expressions[tagApeShape].Weight);
                 }
 
             }
@@ -249,6 +274,10 @@
             browDown.Weight = 0;
             MouthStretch.Weight = 0;
             cheekPuff.Weight = 0;
+            apeShape.Weight = 0;
+            browInnerUp.Weight = 0 ;
+            browOuterUp.Weight = 0;
+
 
             UnifiedTracking.Data.Eye.Left.Openness = 1;
             UnifiedTracking.Data.Eye.Right.Openness = 1;
@@ -269,6 +298,14 @@
 
             UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.CheekPuffRight] = cheekPuff;
             UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.CheekPuffLeft] = cheekPuff;
+
+            UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.JawOpen] = apeShape;
+            UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthClosed] = apeShape;
+
+            UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowInnerUpLeft] = browInnerUp;
+            UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowInnerUpRight] = browInnerUp;
+            UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowOuterUpLeft] = browOuterUp;
+            UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowOuterUpRight] = browOuterUp;
 
         }
 

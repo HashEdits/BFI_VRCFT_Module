@@ -14,34 +14,27 @@ namespace BFI_VRCFT_Module
     {
         private UdpClient _udpClient;
         private IPEndPoint _endPoint;
-        private int Port;
         private static string _oscAddress = "/BFI/MLAction/Action";//adress to listen for OSC messages
 
         private Stopwatch timer = new Stopwatch();//timout timer
-        public static double timeoutTime = 3;//timout time in seconds
+        private double timeoutTime = 3;//timout time in seconds
 
-        public string OSCDebugData;//debug string to display in the console
+        public string debugString;//debug string to display in the console
 
 
         public SupportedExpressions expressions;
-        /* Legacy code
-        public float eyeClosed = 0;
-        public float smile = 0;
-        public float frown = 0;
-        public float anger = 0;
-        public float cringe = 0;*/
 
 
-        public OscReceiver(int port)
+        public OscReceiver(IPAddress address, int port, double timouttime)
         {
-            Port = port;
-            _endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
+            _endPoint = new IPEndPoint(address, port);
             _udpClient = new UdpClient(_endPoint);
+            timouttime = timeoutTime;
         }
 
         public async Task StartListening()//starts listening for OSC messages
         {
-            Console.WriteLine($"Listening for OSC messageson port {Port} ...");
+            debugString = ($"Listening for OSC messages on ip: {_endPoint.Address.ToString()} port: {_endPoint.Port} ...");
             timer.Start();
             while (true)
             {
@@ -54,7 +47,7 @@ namespace BFI_VRCFT_Module
             return timer.Elapsed.TotalSeconds > timeoutTime;
         }
 
-        private void HandleOscMessage(byte[] bytes)
+        private void HandleOscMessage(byte[] bytes)//treats data from OSC messages
         {
             int messageIndex = 0;
             OscMessage oscMessage = new OscMessage(bytes, bytes.Length, ref messageIndex);
@@ -69,45 +62,16 @@ namespace BFI_VRCFT_Module
                             expression.Value.Weight = (float)oscMessage.Value;
                             resetStopwatch();
                         }
-                        //Logger.LogInformation($"Expression: {expression.Key}, Id: {expression.Value.Id}, Weight: {expression.Value.Weight}");
+                        
                     }
 
-                    /* Legacy code
-                     * 
-                     * if (oscMessage.Address.ToString().Contains(_oscAddress + "1"))
-                    {
-                        eyeClosed = (float)oscMessage.Value;
-                        resetStopwatch();
-                    }
-                    else if (oscMessage.Address.ToString().Contains(_oscAddress + "2"))
-                    {
-                        smile = (float)oscMessage.Value;
-                        resetStopwatch();
-                    }
-                    else if (oscMessage.Address.ToString().Contains(_oscAddress + "3"))
-                    {
-                        frown = (float)oscMessage.Value;
-                        resetStopwatch();
-                    }
-                    else if (oscMessage.Address.ToString().Contains(_oscAddress + "4"))
-                    {
-                        anger = (float)oscMessage.Value;
-                        resetStopwatch();
-                    }
-                    else if (oscMessage.Address.ToString().Contains(_oscAddress + "5"))
-                    {
-                        cringe = (float)oscMessage.Value;
-                        resetStopwatch();
-                    }*/
+                    debugString = $"message recieved: {oscMessage.Address.ToString()} = {oscMessage.Value}";
 
-                    OSCDebugData = $"message recieved: {oscMessage.Address.ToString()} = {oscMessage.Value}";
-
-                    //OSCDebugData = $"RawData{oscMessage.Value}\nEyeClosed = {eyeClosed.ToString()} \nSmile = {smile.ToString()}\nFrown = {frown.ToString()}\nAnger = {anger.ToString()}\ncringe = {cringe.ToString()}\n\n";
-
+                    
                 }
             else
             {
-                   OSCDebugData = "Failed to parse OSC message.";
+                   debugString = "Failed to parse OSC message.";
             }
         }
 
