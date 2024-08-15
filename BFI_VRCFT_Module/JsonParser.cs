@@ -12,10 +12,14 @@ namespace BFI_VRCFT_Module
         [JsonPropertyName("id")]
         public int Id { get; set; } = 0;
 
-        [JsonPropertyName("supportedexpressions")]
+        [JsonPropertyName("weight")]
         public float ConfigWeight { get; set; } = 0;
 
-        public float Weight { get; set; } = 0;
+        private float weight = 0;
+        public float Weight { 
+            get { return weight * ConfigWeight; }
+            set { weight = value; } 
+        }
     }
 
     public class SupportedExpressions
@@ -42,7 +46,7 @@ namespace BFI_VRCFT_Module
             }
 
             string jsonString = File.ReadAllText(jsonFilePath);
-            SupportedExpressions supportedExpressions = JsonSerializer.Deserialize<SupportedExpressions>(jsonString);
+            SupportedExpressions supportedExpressions = JsonSerializer.Deserialize<SupportedExpressions>(jsonString);//gotrough the json and deserialize it into the object
             return supportedExpressions;
         }
     }

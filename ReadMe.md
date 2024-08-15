@@ -1,6 +1,6 @@
 # BFI VRCFT Module 🧠
 
-A module that let's you control VRCFT avatars using BFI actions controlled by your brain 🧠
+A VRCFT module that let's you control VRCFT avatars using BFI expression actions controlled by your brain 🧠
 
 ## How to use 🤔
 
@@ -54,6 +54,8 @@ Here's an exemple of a `expressions.json` supporting all of the supported expres
 here's the command to launch BFI with the right launch option:
 
 `python .\main.py ----osc-port 8999`
+
+>Using an OSC mixer is recomended to remain compatibility with your BFI parameters compatible avatar
 
 ### 3 - Drag and drop the latest release of the module in your VRCFT CustomLibs folder
 

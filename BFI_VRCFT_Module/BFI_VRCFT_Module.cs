@@ -11,7 +11,7 @@
 
     public class BFI_VRCFT_Module : ExtTrackingModule
     {
-
+        //tags with which each expression is associated
         private static string tagEyeClosed = "eyeclosed";
         private static string tagSmile = "smile";
         private static string tagFrown = "frown";
@@ -20,9 +20,11 @@
         private static string tagCheekPuff = "cheekpuff";
         private static string tagApeShape = "apeshape";
 
+        //osc info
         public static bool debug = false;
         OscReceiver reciever = new OscReceiver(8999);
 
+        //expressions
         UnifiedExpressionShape frown = new UnifiedExpressionShape();
         UnifiedExpressionShape mouthUpperUp = new UnifiedExpressionShape();
         UnifiedExpressionShape mouthLowerDown = new UnifiedExpressionShape();
@@ -60,15 +62,15 @@
             {
 
                 JsonParser parser = new JsonParser();
-                SupportedExpressions expressions = parser.ParseJson();
-                reciever.expressions = expressions;
+                SupportedExpressions expressions = parser.ParseJson();  //parsing json file
+                reciever.expressions = expressions;                     //assigning expressions to the reciever
                 if (expressions != null && expressions.Expressions != null)
                 {
                     if (expressions.Expressions != null)
                     {
                         foreach (var expression in expressions.Expressions)
                         {
-                            Logger.LogInformation($"Expression: {expression.Key}, Id: {expression.Value.Id}, Weight: {expression.Value.Weight}");
+                            Logger.LogInformation($"Expression: {expression.Key}, Id: {expression.Value.Id}, Weight: {expression.Value.ConfigWeight}");//printting supported expressions to console.
                         }
                     }
                 }
@@ -104,7 +106,7 @@
                 //UpdateValues();
                 UpdateValuesExpressions();
 
-                if (reciever.EvaluateTimout())
+                if (reciever.EvaluateTimout())//checkerboard eyes if we didn't recieve any data for a while
                 {
                     UnifiedTracking.Data.Eye.Left.Gaze = new Vector2(-.75f, 0);
                     UnifiedTracking.Data.Eye.Right.Gaze = new Vector2(.75f, 0);
@@ -117,7 +119,7 @@
                     UnifiedTracking.Data.Eye.Left.Gaze = new Vector2(0, 0);
                     UnifiedTracking.Data.Eye.Right.Gaze = new Vector2(0, 0);
 
-                    if (reciever.expressions.Expressions.ContainsKey(tagEyeClosed))
+                    if (reciever.expressions.Expressions.ContainsKey(tagEyeClosed))//assinign eyeclosed weights if the expression is present
                     {
 
                         UnifiedTracking.Data.Eye.Left.Openness = 1 - reciever.expressions.Expressions[tagEyeClosed].Weight;
@@ -152,13 +154,20 @@
                 UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.JawOpen] = apeShape;
                 UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.MouthClosed] = apeShape;
 
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowInnerUpLeft] = apeShape;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowInnerUpRight] = apeShape;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowOuterUpLeft] = apeShape;
+                UnifiedTracking.Data.Shapes[(int)UnifiedExpressions.BrowOuterUpRight] = apeShape;
+
+
+
             }
 
             // Add a delay or halt for the next update cycle for performance. eg: 
             Thread.Sleep(10);
         }
 
-        private void UpdateValues()
+        /*private void UpdateValues()//legacy function, easier to read
         {
             frown.Weight = reciever.frown + (-reciever.smile);
 
@@ -169,53 +178,53 @@
             browDown.Weight = reciever.anger;
 
             MouthStretch.Weight = reciever.cringe;
-        }
+        }*/
 
-        private void UpdateValuesExpressions()
+        private void UpdateValuesExpressions()//sets values of expressions based on the values recieved from OSC if present
         {
             try
             {
 
                 if (reciever.expressions.Expressions.ContainsKey(tagSmile))
                 {
-                    frown.Weight = (-reciever.expressions.Expressions[tagSmile].Weight);
-                    mouthUpperUp.Weight = reciever.expressions.Expressions[tagSmile].Weight;
-                    mouthLowerDown.Weight = reciever.expressions.Expressions[tagSmile].Weight;
+                    frown.Weight = Clampf01((-reciever.expressions.Expressions[tagSmile].Weight));
+                    mouthUpperUp.Weight = Clampf01(reciever.expressions.Expressions[tagSmile].Weight);
+                    mouthLowerDown.Weight = Clampf01(reciever.expressions.Expressions[tagSmile].Weight);
                 }
                 if (reciever.expressions.Expressions.ContainsKey(tagFrown))
                 {
                     if (reciever.expressions.Expressions.ContainsKey(tagSmile))
                     {
-                        frown.Weight = (-reciever.expressions.Expressions[tagSmile].Weight) + reciever.expressions.Expressions[tagFrown].Weight;
+                        frown.Weight = Clampf01((-reciever.expressions.Expressions[tagSmile].Weight) + reciever.expressions.Expressions[tagFrown].Weight);
                     }
                     else
                     {
-                        frown.Weight = reciever.expressions.Expressions[tagFrown].Weight;
+                        frown.Weight = Clampf01(reciever.expressions.Expressions[tagFrown].Weight);
                     }
                 }
                 if (reciever.expressions.Expressions.ContainsKey(tagCringe))
                 {
                     if (reciever.expressions.Expressions.ContainsKey(tagSmile))
                     {
-                        mouthLowerDown.Weight = Math.Clamp(reciever.expressions.Expressions[tagSmile].Weight + reciever.expressions.Expressions[tagCringe].Weight, 0, 1);
+                        mouthLowerDown.Weight = Clampf01(reciever.expressions.Expressions[tagSmile].Weight + reciever.expressions.Expressions[tagCringe].Weight);
                     }
                     else
                     {
-                        mouthLowerDown.Weight = reciever.expressions.Expressions[tagCringe].Weight;
+                        mouthLowerDown.Weight = Clampf01(reciever.expressions.Expressions[tagCringe].Weight);
                     }
-                    MouthStretch.Weight = reciever.expressions.Expressions[tagCringe].Weight;
+                    MouthStretch.Weight = Clampf01(reciever.expressions.Expressions[tagCringe].Weight);
                 }
                 if (reciever.expressions.Expressions.ContainsKey(tagAnger))
                 {
-                    browDown.Weight = reciever.expressions.Expressions[tagAnger].Weight;
+                    browDown.Weight = Clampf01(reciever.expressions.Expressions[tagAnger].Weight);
                 }
                 if (reciever.expressions.Expressions.ContainsKey(tagCheekPuff))
                 {
-                    cheekPuff.Weight = reciever.expressions.Expressions[tagCheekPuff].Weight;
+                    cheekPuff.Weight = Clampf01(reciever.expressions.Expressions[tagCheekPuff].Weight);
                 }
                 if (reciever.expressions.Expressions.ContainsKey(tagApeShape))
                 {
-                    apeShape.Weight = reciever.expressions.Expressions[tagCheekPuff].Weight;
+                    apeShape.Weight = Clampf01(reciever.expressions.Expressions[tagApeShape].Weight);
                 }
 
             }
@@ -263,9 +272,14 @@
 
         }
 
-        float map(float x, float in_min, float in_max, float out_min, float out_max)
+        float map(float x, float in_min, float in_max, float out_min, float out_max)//remapping function, could prove useful
         {
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        }
+
+        private float Clampf01(float value)//clamps value between 0 and 1
+        {
+            return Math.Clamp(value, 0, 1);
         }
 
     }
