@@ -71,7 +71,6 @@ Enjoy
 
 ## Supported expressions
 
->todo: record gifs to show what the expressions to train for look like
 
 | Reference                                           | Expression          | Description                                               |
 |:---:                                                | :-------------:     |    :-------------:                                        |
