@@ -26,4 +26,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="cd $(SolutionDir)res\&#xD;&#xA;python moduleupdate.py&#xD;" />
+  </Target>
+
 </Project>

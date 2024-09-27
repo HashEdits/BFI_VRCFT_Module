@@ -62,9 +62,8 @@ Here's the command to launch BFI with the right launch option if you leave the p
 
 ⚠️The port can be configured at the bottom of `config.json`
 
-### 3 - Drag and drop the latest release of the module in your VRCFT CustomLibs folder 📁
+### 3 - Go to VRCFT's modules registery tab, click the `+` button and select the latest release of the module 📁
 
-Make sure that the name of the folder containing `BFI_VRCFT_Module.dll` & `module.json` & `config.json` is named `91a90618-b020-4064-8832-809b2ca2b3be`
 
 ### 4 - Launch VRCFT ✔️
 
@@ -74,12 +73,12 @@ Enjoy
 
 >todo: record gifs to show what the expressions to train for look like
 
-| Reference | Expression      | Description |
-|:---:| :-------------:     |    :-------------:                                        |
-| gif | eyeclosed           |  eyelids closing fully                                    |
-| gif | smile               | smile with mouth opened                                   |
-| gif | frown               | n shaped frown                                            |
-| gif | anger               | brow going down                                           |
-| gif | cringe              | mouth stretches and reveles the bottom teeth              |
-| gif | cheekpuff           | cheek puffs                                               |
-| gif | apeshape            | lower jaw while keeping the mouth closed                  |
+| Reference                                           | Expression          | Description                                               |
+|:---:                                                | :-------------:     |    :-------------:                                        |
+| <img src="demogifs/eyeclosed.gif" alt="eyeclosed"/> | eyeclosed           |  eyelids closing fully                                    |
+| <img src="demogifs/smile.gif" alt="smile"/>         | smile               | smile with mouth opened                                   |
+| <img src="demogifs/frown.gif" alt="frown"/>         | frown               | n shaped frown                                            |
+| <img src="demogifs/anger.gif" alt="anger"/>         | anger               | brow going down                                           |
+| <img src="demogifs/cringe.gif" alt="cringe"/>       | cringe              | mouth stretches and reveles the bottom teeth              |
+| <img src="demogifs/cheekpuff.gif" alt="cheekpuff"/> | cheekpuff           | cheek puffs                                               |
+| <img src="demogifs/apeshape.gif" alt="apeshape"/>   | apeshape            | lower jaw while keeping the mouth closed                  |

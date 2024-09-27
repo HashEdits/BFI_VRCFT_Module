@@ -1,6 +1,7 @@
 ﻿namespace BFI_VRCFT_Module
 {
     using Microsoft.Extensions.Logging;
+    using System.IO;
     using System.Linq.Expressions;
     using System.Net;
     using System.Text.Json;
@@ -202,7 +203,7 @@
                 {
                     if (reciever.expressions.Expressions.ContainsKey(tagSmile))
                     {
-                        frown.Weight = Clampf01((-reciever.expressions.Expressions[tagSmile].Weight) + reciever.expressions.Expressions[tagFrown].Weight);
+                        frown.Weight = ClampfMinus11((-reciever.expressions.Expressions[tagSmile].Weight) + reciever.expressions.Expressions[tagFrown].Weight);
                     }
                     else
                     {
@@ -317,6 +318,11 @@
         private float Clampf01(float value)//clamps value between 0 and 1
         {
             return Math.Clamp(value, 0, 1);
+        }
+
+        private float ClampfMinus11(float value)//clamps value between 0 and 1
+        {
+            return Math.Clamp(value, -1, 1);
         }
 
     }
