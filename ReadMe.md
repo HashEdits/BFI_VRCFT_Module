@@ -5,7 +5,7 @@ A VRCFT module that let's you control VRCFT avatars using BFI expression actions
 [![Watch the video](media/BFI_VRCFT_thumbnail.png)](https://youtu.be/YbaF6A0G3T8)
 
 
-## Supported expressions
+## Supported expressions 😀
 
 >List of supported expressions not set in stone yet
 
@@ -21,7 +21,7 @@ A VRCFT module that let's you control VRCFT avatars using BFI expression actions
 
 ## How to use 🤔
 
-### 1 - Train your expressions as BFI Actions :
+### 1 - Train your expressions as BFI Actions🏋️ :
 
 Make sure you've trained your actions
 
@@ -43,7 +43,7 @@ Here's the command to launch BFI with the right launch option if you leave the p
 
 Go to VRCFT's modules registery tab, click the `+` button and select the latest release of the module 📁
 
-### 4 - Configured your supported expressions based on your trained actions
+### 4 - Configured your supported expressions based on your trained actions 🤓
 
 config.json must be in the same folder as the module and is used to define which expressions you have trained and which action number it's assigned to and it's overhall weight.
 
