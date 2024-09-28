@@ -2,9 +2,7 @@
 
 A VRCFT module that let's you control VRCFT avatars using BFI expression actions controlled by your brain 🧠
 
-Video presentation
-
-[![Watch the video](media/BFI_VRCFT_thumbnail.png)](https://youtu.be/Wi3wHvR74OU)
+[![Watch the video](media/BFI_VRCFT_thumbnail.png)](https://youtu.be/YbaF6A0G3T8)
 
 
 ## Supported expressions
