@@ -29,13 +29,33 @@ Make sure you've trained your actions
 
 
 
-### 2 - Launch BFI to output to your configured port 💨
+### 2 - Get data into the module 💨
+
+You've got a couple ways you can go about doing that but using an OSC mixer is recomended to remain compatibility with your BFI parameters compatible avatar.
+
+#### OSC Mixing 🎛️
+
+We'll use [VOR](https://github.com/SutekhVRC/VOR) but the setup should be about the same with any other OSC mixing software:
+
+- Select a port for BrainFlows
+![VORConfigBFI](media/VORConfigBFI.png)
+
+
+- Configure your routing
+![VORConfigVRCFT](media/VORConfigVRCFT.png)
+
+- Launch BFI
+
+  `python .\main.py --board-id=YOURBOARD --enable-action --osc-port=9002`
+
+
+
+#### Directly output to the module ➡️
 
 Here's the command to launch BFI with the right launch option if you leave the port on the default setting:
 
 `python .\main.py ----osc-port 8999`
 
->Using an OSC mixer is recomended to remain compatibility with your BFI parameters compatible avatar
 
 ⚠️The port can be configured at the bottom of `config.json`
 
@@ -94,3 +114,5 @@ Here's an exemple of a config.json supporting all of the supported expressions t
 **[VRCFT](https://github.com/benaclejames/VRCFaceTracking)**
 
 **[BrainFlowsIntoVRChat](https://github.com/ChilloutCharles/BrainFlowsIntoVRChat)**
+
+**[VOR](https://github.com/SutekhVRC/VOR)**
