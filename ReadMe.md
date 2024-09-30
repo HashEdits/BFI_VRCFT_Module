@@ -2,7 +2,7 @@
 
 A VRCFT module that let's you control VRCFT avatars using BFI expression actions controlled by your brain 🧠
 
-[![Watch the video](media/BFI_VRCFT_thumbnail.png)](https://youtu.be/YbaF6A0G3T8)
+[![Watch the video](media/BFI_VRCFT_thumbnail.png)](https://youtu.be/25exXjnTCI0)
 
 
 ## Supported expressions 😀
@@ -89,3 +89,8 @@ Here's an exemple of a config.json supporting all of the supported expressions t
 ```
 
 
+## Credits 📕
+
+**[VRCFT](https://github.com/benaclejames/VRCFaceTracking)**
+
+**[BrainFlowsIntoVRChat](https://github.com/ChilloutCharles/BrainFlowsIntoVRChat)**
