@@ -19,6 +19,12 @@ A VRCFT module that let's you control VRCFT avatars using BFI expression actions
 | <img src="media/cheekpuff.gif" alt="cheekpuff"/> | cheekpuff           | cheek puffs                                               |
 | <img src="media/apeshape.gif" alt="apeshape"/>   | apeshape            | lower jaw while keeping the mouth closed                  |
 
+## Tested hardware 🧰
+
+While this module is compatible with [any Brainflows compatible boards](https://github.com/ChilloutCharles/BrainFlowsIntoVRChat#instructions), training facial expressions has only been tested with the MuseS and Muse 2 headbands thus far.
+
+Please get in contact if you try this with a different device so I can list it here 😊
+
 ## How to use 🤔
 
 ### 1 - Train your expressions as BFI Actions🏋️ :
@@ -26,8 +32,6 @@ A VRCFT module that let's you control VRCFT avatars using BFI expression actions
 Make sure you've trained your actions
 
 [Here's BFI's documentation](https://github.com/ChilloutCharles/BrainFlowsIntoVRChat/wiki/Action-Classification-Instructions) on how to train your own actions
-
-
 
 ### 2 - Get data into the module 💨
 
@@ -108,6 +112,9 @@ Here's an exemple of a config.json supporting all of the supported expressions t
 }
 ```
 
+### 5 - Launch VRChat and switch to a VRCFT compatible avatar
+
+VRCFT compatible avatars can be found by searching for `VRCFT` or `Face Tracing` in [Prismic's Avatar Search world](https://vrchat.com/home/world/wrld_57514404-7f4e-4aee-a50a-57f55d3084bf)
 
 ## Credits 📕
 
